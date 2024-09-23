@@ -12,12 +12,12 @@ http://localhost:5000/api/v1
 - **Request Body**:
     ```json
     {
-        "fund_name": "string",              # required: the name of the fund
-        "fund_manager_name": "string",      # required: the manager's name of the fund
-        "fund_description": "string",       # required: the description of the fund
-        "fund_nav": number,                 # required: the net asset value of the fund
-        "fund_performance": number          # optional: the performance of the fund
-        "fund_creation_date": "YYYY-MM-DD", # optional: the creation date of the fund
+        "fund_name": "string",              // required: the name of the fund
+        "fund_manager_name": "string",      // required: the manager's name of the fund
+        "fund_description": "string",       // required: the description of the fund
+        "fund_nav": 1,                      // required: the net asset value of the fund
+        "fund_performance": 1               // optional: the performance of the fund
+        "fund_creation_date": "YYYY-MM-DD", // optional: the creation date of the fund
     }
     ```
 - **Response**:
@@ -27,13 +27,13 @@ http://localhost:5000/api/v1
     {
         "code": 201,
         "data": {
-            "fund_id": integer,
+            "fund_id": 1,
             "fund_name": "string",
             "fund_manager_name": "string",
             "fund_description": "string",
-            "fund_nav": number,
+            "fund_nav": 1,
             "fund_creation_date": "YYYY-MM-DD",
-            "fund_performance": number,
+            "fund_performance": 1,
             "created_at": "timestamp",
             "updated_at": "timestamp"
         },
@@ -53,13 +53,13 @@ http://localhost:5000/api/v1
         "code": 200,
         "data": [
             {
-                "fund_id": integer,
+                "fund_id": 1,
                 "fund_name": "string",
                 "fund_manager_name": "string",
                 "fund_description": "string",
-                "fund_nav": number,
+                "fund_nav": 1,
                 "fund_creation_date": "YYYY-MM-DD",
-                "fund_performance": number,
+                "fund_performance": 1,
                 "created_at": "timestamp",
                 "updated_at": "timestamp"
             },
@@ -80,13 +80,13 @@ http://localhost:5000/api/v1
     {
         "code": 200,
         "data": {
-            "fund_id": integer,
+            "fund_id": 1,
             "fund_name": "string",
             "fund_manager_name": "string",
             "fund_description": "string",
-            "fund_nav": number,
+            "fund_nav": 1,
             "fund_creation_date": "YYYY-MM-DD",
-            "fund_performance": number,
+            "fund_performance": 1,
             "created_at": "timestamp",
             "updated_at": "timestamp"
         },
@@ -101,7 +101,7 @@ http://localhost:5000/api/v1
 - **Request Body**:
     ```json
     {
-        "fund_performance": number
+        "fund_performance": 1
     }
     ```
 - **Response**:
