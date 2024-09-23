@@ -1,0 +1,38 @@
+[
+    {
+        "fund_name": "Delete Fund",
+        "fund_manager_name": "Manager B",
+        "fund_description": "Fund for deletion testing.",
+        "fund_nav": 2500.0,
+        "fund_creation_date": "2024-09-23",
+        "fund_performance": 0.0,
+        "fund_id": 2,
+        "created_at": "2024-09-23T23:13:25.885774",
+        "updated_at": "2024-09-23T23:13:25.885775",
+        "status": 1
+    },
+    {
+        "fund_name": "Test Fund",
+        "fund_manager_name": "Test Manager",
+        "fund_description": "A test fund.",
+        "fund_nav": 1000.0,
+        "fund_creation_date": "2024-09-23",
+        "fund_performance": 5.0,
+        "fund_id": 3,
+        "created_at": "2024-09-23T23:13:25.886996",
+        "updated_at": "2024-09-23T23:13:25.886997",
+        "status": 1
+    },
+    {
+        "fund_name": "Performance Fund",
+        "fund_manager_name": "Manager A",
+        "fund_description": "Fund for performance testing.",
+        "fund_nav": 2000.0,
+        "fund_creation_date": "2024-09-23",
+        "fund_performance": 10.5,
+        "fund_id": 4,
+        "created_at": "2024-09-23T23:13:25.888035",
+        "updated_at": "2024-09-23T23:13:25.888331",
+        "status": 1
+    }
+]
