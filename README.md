@@ -3,6 +3,7 @@ Directory Structure
 ```bash
 /abda
     ├── .env                    # environment file
+    ├── .env.example            # example environment file
     ├── app.py                  # Startup entry
     ├── controllers.py          # Controller logic
     ├── data_handler.py         # Data reading and writing logic
