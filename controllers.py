@@ -55,7 +55,7 @@ def update_fund_performance(fund_id):
     # check if the performance data is valid
     fund_performance = performance_data['fund_performance']
     if not isinstance(fund_performance, (int, float)):
-        return error_response('fund performance must be a number'), 400
+        return error_response('Fund performance must be a number'), 400
     
     funds = read_data()
     

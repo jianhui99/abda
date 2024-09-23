@@ -1,7 +1,7 @@
 import unittest
 import os
 import sqlite3
-from test_db_func import create_connection, create_fund, get_fund_by_id, update_fund_performance, delete_fund
+from data_handler import create_connection, create_fund, get_fund_by_id, update_fund_performance, delete_fund
 
 class TestDatabaseOperations(unittest.TestCase):
     TEST_DB = 'test_investment_funds.db'
