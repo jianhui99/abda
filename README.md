@@ -8,9 +8,11 @@ Directory Structure
     ├── controllers.py          # Controller logic
     ├── data_handler.py         # Data reading and writing logic
     ├── funds.json              # Store fund data
-    ├── init_db.py              # init database
+    ├── init.py                 # init database
     ├── investment_fund.py      # simple class for investment fund
+    ├── investment_fund.db      # sqlite database for investment fund
     ├── json_db_to_sqlite3.py   # migrate json to sqlite3
+    ├── lang.py                 # app language file
     ├── README_2.md             # Documentation for api and database structure
     ├── README.md               # Documentation for project and task
     ├── response.py             # Response encapsulation
@@ -44,19 +46,20 @@ python3 app.py
 
 **Task 3**: Data Persistence Implement data persistence using a lightweight database system (e.g., SQLite or JSON file). When a new fund is created or the performance of an existing fund is updated, the data should be stored persistently.
 ```bash
-we use JSON files as the data persistence implementation of fund data
+we use sqlite3 to store the data
 ```
 
 
 **Task 4**: SQL Database Schema Design an appropriate database schema to store investment fund data. Create SQL statements to create the necessary tables and relationships.
 ```bash
 we use sqlite3 to create the table
-python3 init_db.py 
+python3 init.py 
 ```
 
 
 **Task 5**: SQL Data Migration Write SQL scripts to migrate the data from the lightweight database system (used for Task 3) to the SQL database you designed in Task 4
 ```bash
+task 3 & 4 use the same db, the following script is a simple to show how to migrate json data to sqlite
 python3 json_db_to_sqlite3.py 
 ```
 

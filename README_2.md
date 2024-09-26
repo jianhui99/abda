@@ -138,7 +138,7 @@ http://localhost:5000/api/v1
 
 ## Database Schema
 
-### Table: `funds`
+### Table: `investment_funds`
 | Column Name          | Data Type         | Constraints                     |
 |---------------------|-------------------|---------------------------------|
 | `fund_id`           | INTEGER           | PRIMARY KEY AUTOINCREMENT       |
@@ -148,6 +148,7 @@ http://localhost:5000/api/v1
 | `fund_nav`          | DECIMAL(15, 4)    | NOT NULL                        |
 | `fund_creation_date`| DATE              | NOT NULL                        |
 | `fund_performance`   | DECIMAL(10, 4)    | NOT NULL                        |
+| `fund_status`     | INT                  | NOT NULL DEFAULT 1            |
 | `created_at`        | TEXT              | DEFAULT (DATETIME('now'))      |
 | `updated_at`        | TEXT              | DEFAULT (DATETIME('now'))      |
 

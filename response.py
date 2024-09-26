@@ -1,5 +1,5 @@
 from flask import jsonify
-
+from lang import lang
 
 ok = 1
 notok = 0
@@ -17,7 +17,7 @@ def __result(code, data, msg=None):
     return jsonify(response)
 
 
-def success_response(data, msg='success'):
+def success_response(data, msg=lang['success']):
     """
     Function to create a success JSON response.
     """

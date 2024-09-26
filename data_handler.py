@@ -1,29 +1,17 @@
 import json
 import os
 import sqlite3
-
-DATA_FILE = os.path.join(os.path.dirname(__file__), 'funds.json')
-
-def read_data():
-    """
-    Read data from the funds.json file.
-    """
-    if not os.path.exists(DATA_FILE):
-        return []
-    with open(DATA_FILE, 'r') as f:
-        return json.load(f)
-
-
-def write_data(data):
-    """
-    Write data to the funds.json file.
-    """
-    with open(DATA_FILE, 'w') as f:
-        json.dump(data, f, indent=4)
+from flask import current_app
 
 
 def create_connection(db_file):
     conn = sqlite3.connect(db_file)
+    return conn
+
+
+def get_db_connection():
+    db_path = current_app.config['DATABASE']
+    conn = sqlite3.connect(db_path)
     return conn
 
 
@@ -36,23 +24,36 @@ def create_fund(conn, fund):
     return cur.lastrowid
 
 
-def get_fund_by_id(conn, fund_id):
+def get_fund_by(conn, key, val):
     cur = conn.cursor()
-    cur.execute("SELECT * FROM investment_funds WHERE fund_id=?", (fund_id,))
+    cur.execute(f"SELECT * FROM investment_funds WHERE {key}=?", (val,))
     return cur.fetchone()
 
 
-def update_fund_performance(conn, fund_id, performance):
-    sql = ''' UPDATE investment_funds
-              SET fund_performance = ?
-              WHERE fund_id = ? '''
+def update_fund_performance(conn, fund_id, fund):
+    sql = "UPDATE investment_funds SET "
+    sql += ", ".join([k + " = ?" for k in fund.keys()])
+    sql += " WHERE fund_id = ?"
+
+    vals = list(fund.values())
+    vals.append(fund_id)
+
     cur = conn.cursor()
-    cur.execute(sql, (performance, fund_id))
+    cur.execute(sql, vals)
     conn.commit()
+    return cur.rowcount
 
 
 def delete_fund(conn, fund_id):
-    sql = 'DELETE FROM investment_funds WHERE fund_id=?'
+    sql = "DELETE FROM investment_funds WHERE fund_id=?"
     cur = conn.cursor()
     cur.execute(sql, (fund_id,))
     conn.commit()
+    return cur.rowcount
+
+
+def get_funds(conn):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM investment_funds")
+    return cur.fetchall()
+

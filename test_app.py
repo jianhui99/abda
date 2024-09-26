@@ -15,15 +15,17 @@ import unittest
 import json
 import os
 from app import app
+from data_handler import create_connection
+from unittest.mock import patch
+import sqlite3
 
 class TestInvestmentFundAPI(unittest.TestCase):
-    TEST_JSON = 'test_funds.json'
+    TEST_DB = 'test_investment_funds.db'
 
     @classmethod
     def setUpClass(cls):
-        # init a test json file
-        with open(cls.TEST_JSON, 'w') as f:
-            json.dump([], f)
+        cls.conn = create_connection(cls.TEST_DB)
+        cls.create_table()
 
         # set up Flask test client
         cls.app = app.test_client()
@@ -31,10 +33,28 @@ class TestInvestmentFundAPI(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        # clear test json
-        if os.path.exists(cls.TEST_JSON):
-            os.remove(cls.TEST_JSON)
+        cls.conn.close()
+        if os.path.exists(cls.TEST_DB):
+            os.remove(cls.TEST_DB)
 
+    @classmethod
+    def create_table(cls):
+        sql = '''CREATE TABLE IF NOT EXISTS investment_funds (
+            fund_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            fund_name TEXT NOT NULL,
+            fund_manager_name TEXT NOT NULL,
+            fund_description TEXT,
+            fund_nav DECIMAL(15, 4) NOT NULL,
+            fund_creation_date DATE NOT NULL,
+            fund_performance DECIMAL(10, 4) NOT NULL,
+            fund_status INT NOT NULL DEFAULT 1,
+            created_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime')),
+            updated_at TEXT NOT NULL DEFAULT (DATETIME('now', 'localtime'))
+        );'''
+        cls.conn.execute(sql)
+        cls.conn.commit()
+
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_create_fund(self):
         response = self.app.post('/api/v1/funds', 
             data=json.dumps({
@@ -48,8 +68,9 @@ class TestInvestmentFundAPI(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 201)
-        self.assertIn(b'Fund created successfully!', response.data)
+        self.assertIn(b'Success', response.data)
 
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_duplicate_fund_creation(self):
         # create duplicate fund
         self.app.post('/api/v1/funds', 
@@ -78,12 +99,14 @@ class TestInvestmentFundAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn(b'Fund name already exists.', response.data)
 
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_get_funds(self):
         response = self.app.get('/api/v1/funds')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
         self.assertIsInstance(data['data'], list)
 
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_update_fund_performance(self):
         # create a fund
         response = self.app.post('/api/v1/funds', 
@@ -102,14 +125,13 @@ class TestInvestmentFundAPI(unittest.TestCase):
         response_data = json.loads(response.data)
         fund_id = response_data['data']['fund_id']
 
-
         # update the fund performance
         update_response = self.app.put(f'/api/v1/funds/{fund_id}/performance',
             data=json.dumps({"fund_performance": 10.5}),
             content_type='application/json'
         )
         self.assertEqual(update_response.status_code, 200)
-        self.assertIn(b'Fund performance updated successfully.', update_response.data)
+        self.assertIn(b'Success', update_response.data)
 
     def test_invalid_update_performance(self):
         # update the fund performance that is not existing
@@ -121,6 +143,7 @@ class TestInvestmentFundAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertIn(b'Fund not found!', response.data)
 
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_delete_fund(self):
         # create a fund
         self.app.post('/api/v1/funds', 
@@ -137,8 +160,9 @@ class TestInvestmentFundAPI(unittest.TestCase):
         
         response = self.app.delete('/api/v1/funds/1')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Fund deleted successfully!', response.data)
+        self.assertIn(b'Success', response.data)
 
+    @patch('data_handler.get_db_connection', lambda: sqlite3.connect('test_investment_funds.db'))
     def test_get_fund_not_found(self):
         response = self.app.get('/api/v1/funds/999')
         
